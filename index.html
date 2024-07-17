@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="househelperhub.css">
+    <link rel="stylesheet" href="login.css">
+    <title>HouseHelperHub</title>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+            var showLoginFormButton = document.getElementById('showLoginFormButton');
+            var signupButton = document.getElementById('signupButton');
+            var createProfileButton = document.getElementById('createProfileButton');
+       
+            var loginForm = document.getElementById('loginForm');
+         
+
+            // Check for stored authentication state
+            var isUserAuthenticated = localStorage.getItem('isUserAuthenticated') === 'true';
+
+            // Initialize the UI based on the authentication state
+            updateUI();
+
+            showLoginFormButton.addEventListener('click', function () {
+                if (loginForm.style.display === 'none' || loginForm.style.display === '') {
+                    loginForm.style.display = 'block';
+                } else {
+                    loginForm.style.display = 'none';
+                }
+            });
+
+            loginForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                var email = document.getElementById('emailid').value;
+                var password = document.getElementById('password').value;
+
+                // Perform AJAX request for login
+                fetch('/index', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ emailid: email, password: password })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        isUserAuthenticated = true;
+                        updateUI();
+                    } else {
+                        alert('Login failed: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error during login:', error);
+                    alert('Login failed. Please try again.');
+                });
+            });
+
+            signupButton.addEventListener('click', function () {
+                // Simulate successful signup
+                isUserAuthenticated = true;
+                updateUI();
+            });
+
+            function updateUI() {
+                if (isUserAuthenticated) {
+                    // Show create profile and logout buttons
+                    createProfileButton.style.display = 'block';
+                
+
+                    // Hide login and signup buttons
+                    showLoginFormButton.style.display = 'none';
+                    signupButton.style.display = 'none';
+
+                    // Hide login form
+                    loginForm.style.display = 'none';
+                } else {
+                    // Show login and signup buttons
+                    showLoginFormButton.style.display = 'block';
+                    signupButton.style.display = 'block';
+
+                    // Hide create profile and logout buttons
+                    createProfileButton.style.display = 'none';
+                    
+
+                    // Show login form
+                    loginForm.style.display = 'none';
+                }
+
+                // Store authentication state
+                localStorage.setItem('isUserAuthenticated', isUserAuthenticated.toString());
+            }
+        });
+    </script>
+    
+</head>
+<body>
+    <header class="header">
+        <ul class="ul">
+            <button id="notificationButton">Show Notifications</button>
+            <li class="li1"><button id="showLoginFormButton" class="h"><a href="#">Log in</a></button></li>
+            <li class="li2"><button  id="signupButton" class="h"><a href="sign up.html">Sign Up</a></button></li>
+            <li class="li4"  id="createProfileButton" style="display: none;"><button class="h"><a href="create.html">Create Profile</a></button></li>
+         
+            
+
+            
+        </ul>
+    </header>
+    
+    <div class="main-content"  >
+        <h1>WELCOME TO "HOUSEHELPERHUB"</h1>
+        <h3>A platform that connects houseworkers and service seekers</h3>
+        <br><br><br>
+        <!-- Display login form -->
+      <center>  <form id="loginForm" action="/index" method="POST"  style="display: none;">
+            <label for="email">Email:</label>
+            <input type="email" id="emailid" name="emailid" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
+            <br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required  pattern=".{6,}">
+            <br><br>
+            <button type="submit"  id="simulateLoginButton">Login</button>
+        </form>
+    </center>
+    <script>
+        function redirectToSignup() {
+            window.location.href = "sign up.html";
+        }
+    </script>
+    <script>
+        // Check for the 'message' query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const message = urlParams.get('message');
+
+        // Display a success message if present
+        if (message === 'success') {
+            alert('Registration successful!'); // You can replace this with your own UI logic
+        }
+    </script>
+   
+
+
+    <script src="combined.js"></script>
+  
+
+    <div id="notificationContainer">
+        <!-- Notifications will be displayed here -->
+    </div>
+
+    <script>
+        document.getElementById('notificationButton').addEventListener('click', function() {
+            // Assuming you have an endpoint to fetch notifications from the server
+            if (notificationContainer.style.display === 'block') {
+            notificationContainer.style.display = 'none';
+        } else {
+            fetch('/api/notifications')
+                .then(response => response.json())
+                .then(data => {
+                    // Display notifications
+                    displayNotifications(data);
+                })
+                .catch(error => console.error('Error fetching notifications:', error));
+                notificationContainer.style.display = 'block';
+        }
+        });
+    
+        function displayNotifications(notifications) {
+            const notificationContainer = document.getElementById('notificationContainer');
+            notificationContainer.innerHTML = ''; 
+            
+            if (!notifications || !Array.isArray(notifications)) {
+        console.log('Invalid notifications format:', notifications);
+        return;
+    }// Clear previous notifications
+    
+            notifications.forEach(notification => {
+                const notificationElement = document.createElement('div');
+                notificationElement.innerHTML = `
+                    <strong>${notification.posterEmail}</strong><br>
+                    Applicant: ${notification.applicantName}<br>
+                    Jobtitle: ${notification.jobTitle||'Title Not Available'}
+                `;
+                notificationContainer.appendChild(notificationElement);
+            });
+        }
+    </script>
+
+    
+</body>
+</html>

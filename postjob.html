@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Post a Job</title>
+    <style>
+        /* postjob.css */
+
+/* Global Styles */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5; /* Adding a background color for better visibility */
+}
+form{
+    background: linear-gradient(45deg, dodgerblue,pink, purple);
+    width: 10cm; /* Increase form width */
+    height: 15cm; /* Increase form height */
+    padding: 10px 20px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    box-shadow:5px  10px 10px  #545152;
+
+
+  
+}
+label{
+    width:140px;
+    display:inline-block;
+    margin:0.2cm;
+    font-size:16px;
+    font-weight: bold;
+}
+ input{
+    padding:4px;
+    margin: 5px;
+    font-size:16px;
+    border-radius:10px;
+    border: 1px solid #f9f9f9;
+    width: 7cm;
+ }
+ button{
+    margin: 7px;
+    color:white;
+    font-weight: bold;
+    padding: 4px;
+    background-color:dodgerblue;
+ }
+ button:hover{
+    background-color:purple;
+    color:#f9f9f9
+ }
+ h1{
+    
+    text-decoration: underline;
+    color:blue;
+    font-size: 24px;
+ }
+
+    </style>
+</head>
+<body>
+
+    <!-- Job Posting Form -->
+    <form id="jobPostForm">
+        <h1>Post a Job</h1>
+
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required><br>
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required></textarea><br>
+
+        <label for="salary">Salary:</label>
+        <input type="text" id="salary" name="salary" required><br>
+
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="text" id="phoneNumber" name="phoneNumber" required pattern="[0-9]{10}" title="Please enter a 10-digit phone number">
+        <label for="email">Email:</label>
+        <input type="email" id="emailid" name="emailid" required  pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"><br>
+        <label for="email">JobId:</label>
+        <input type="number" id="jobId" name="jobId" required><br>
+        <button type="submit">Submit</button>
+        <button ><a href="dashboard.html">Go to dashboard</a></button>
+    </form>
+
+    <script src="postjob.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="househelperhub.css">
+    <title>HouseHelperHub</title>
+</head>
+<body>
+    <header class="header">
+        <ul class="ul">
+            <li class="li"><button class="h"><a href="">Home</a></button></li>
+            <li class="li1"><button class="h"><a href="sign up.html" >Sign Up</a></button></li>
+            <li class="li2"><button class="h"><a href="#loginForm">Log in</a></button></li>
+            <li class="li3"><button class="h"><a href="">Job Listing</a></button></li>
+        </ul>
+    </header>
+    <div class="main-content">
+        <h1>Welcome To "HOUSEHELPERHUB"</h1>
+        <h3>A platform that connects houseworkers and service seekers</h3>
+        <br><br><br>
+        <!-- Display login form -->
+        <form id="loginForm" action="http://localhost:3006/home" method="POST">
+            <label for="email">Email:</label>
+            <input type="email" id="emailid" name="emailid" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
+            <br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required pattern="\\d{10}">
+            <br><br>
+            <button type="submit">Login</button>
+        </form>
+
+        <!-- Display signup form -->
+        <form id="signup-form" style="display: none;">
+            <!-- SignUp form will be dynamically generated here -->
+        </form>
+    </div>
+    <footer class="footer">
+        <ul>
+            <li>Company</li>
+            <li><a href="">About Us</a></li>
+            <li><a href="">Contact Us</a></li>
+            <li><a href="">Help & Support</a></li>
+        </ul>
+    </footer>
+
+    <script>
+        function redirectToSignup() {
+            window.location.href = "#signup-form";
+        }
+
+        // Check for the 'message' query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const message = urlParams.get('message');
+
+        // Display a success message if present
+        if (message === 'success') {
+            alert('Registration successful!'); // You can replace this with your own UI logic
+        }
+    </script>
+   
+    <script src="combined.js"></script>
+</body>
+</html>
